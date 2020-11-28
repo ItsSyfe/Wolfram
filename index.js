@@ -32,7 +32,6 @@ module.exports = class Wolfram extends Plugin {
                 }
 
                 let url = `http://api.wolframalpha.com/v1/result?appid=${appID}&i=${encodeURIComponent(input)}&units=metric`;
-                console.log(url)
                 let res = await get(url)
 
                 if (res.statusCode == 200) {

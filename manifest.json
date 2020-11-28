@@ -2,6 +2,6 @@
   "name": "Wolfram",
   "description": "Checks query with Wolfram Alpha API.",
   "author": "Syfe",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT"
 }
