@@ -9,4 +9,4 @@ This is simple to get! All you need to do is sign up for an account. Then regist
 After you have acquired your AppID, head to your user settings and navigate to Wolfram's settings panel. Paste your AppID there, and try the plugin out, if it still errors, you might need to reload Discord.
 
 ### Preview
-![Preview]()
+![Preview](https://raw.githubusercontent.com/ItsSyfe/Wolfram/master/wolfram.gif)
