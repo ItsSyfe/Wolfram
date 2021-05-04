@@ -3,6 +3,8 @@ const { get } = require('powercord/http');
 
 const Settings = require('./Settings.jsx');
 
+const wrapResult = (str) => `-- **Wolfram Alpha** --\n${str}\n------------------------`
+
 module.exports = class Wolfram extends Plugin {
     async startPlugin() {
         const appID = this.settings.get('appID', '');
@@ -22,7 +24,7 @@ module.exports = class Wolfram extends Plugin {
                     ? !!args.splice(args.indexOf('--send'), 1)
                     : this.settings.get('send', false);
 
-                const input = await args.join(' ');
+                const input = args.join(' ');
 
                 if (!input) {
                     return {
@@ -32,21 +34,31 @@ module.exports = class Wolfram extends Plugin {
                 }
 
                 let url = `https://api.wolframalpha.com/v1/result?appid=${appID}&i=${encodeURIComponent(input)}&units=metric`;
-                let res = await get(url)
+                
+                try {
+                    let res = await get(url)
 
-                if (res.statusCode == 200) {
-                    let wMSG = `-- **Wolfram Alpha** --\n*Input:* ${input}\n*Output:* ${res.body.toString()}\n------------------------`;
+                    if (res.statusCode == 200) {
+                        let wMSG = wrapResult(`*Input:* ${input}\n*Output:* ${res.body.toString()}`);
+                        return {
+                            send,
+                            result: wMSG,
+                        };
+                    }
+
                     return {
-                        send,
-                        result: wMSG,
+                        send: false,
+                        result: `Unknown failure.`
+                    };
+                } catch (err) {
+                    const error = err instanceof Error ? err.toString() : String(err)
+
+                    return {
+                        send: false,
+                        result: wrapResult(`*Input:* ${input}\n*Error*: ${error}`)
                     };
                 }
-
-                return {
-                    send: false,
-                    result: `Unknown failure.`
-                };
-            }
+             }
         });
     }
 
