@@ -46,10 +46,7 @@ module.exports = class Wolfram extends Plugin {
                         };
                     }
 
-                    return {
-                        send: false,
-                        result: `Unknown failure.`
-                    };
+                    throw new Error(res.body ? res.body.toString() : `Unknown error with code ${res.statusCode}`)
                 } catch (err) {
                     const error = err instanceof Error ? err.toString() : String(err)
 
